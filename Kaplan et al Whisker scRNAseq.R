@@ -78,15 +78,6 @@ experiment <- ScaleData(experiment, verbose = TRUE)
 all_markers <- FindAllMarkers(experiment, logfc.threshold = 0.25, min.pct = 0.20, only.pos = T)
 write_xlsx(all_markers,"C:/Users/mehmet.kaplan/OneDrive - Ústav experimentální medicíny AV ČR, v. v. i/Desktop/all markers.xlsx")
 
-all_markers %>%
-  group_by(cluster) %>%
-  top_n(n = 10, wt = avg_log2FC) -> top10
-
-# HEATMAPS
-DoHeatmap(experiment, features = top10$gene, raster=F) +  scale_fill_gradientn(colors = rev(RColorBrewer::brewer.pal(n = 10, name = "RdBu")) ) +  guides(color=FALSE)
-
-
-
 # MAKE MODULE SCORES
 DefaultAssay(experiment) <- "SCT"
 # Fb module score: from https://doi.org/10.1016/j.devcel.2015.06.023
